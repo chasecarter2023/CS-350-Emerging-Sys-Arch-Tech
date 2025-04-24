@@ -1,1 +1,13 @@
-# CS-350-Emerging-Sys-Arch-Tech
+# READ ME
+
+This repository contains two Python applications designed for a Raspberry Pi. The first program uses a thermostat controller: it reads temperature from an AHTx0 sensor, displays the date, time, and current temperature on a 16×2 character LCD, and manages heating and cooling LEDs based on a user‑set temperature. The second program is a Morse code transmitter: it uses red and blue LEDs to send messages in CW (dot and dash) while showing the active message on the same type of LCD. Both applications use a state machine pattern and threading to keep hardware control and display updates organized and responsive.
+
+I structured each application around a clear state machine, which made the flow of states and transitions easy to understand and extend. By isolating display logic in a ManagedDisplay class and sensor or LED control in dedicated methods, I avoided code duplication and made each part of the program focused on a single responsibility. During development, I tested button handlers and non‑blocking display loops to ensure smooth user interaction without freezing the main thread.
+
+While the core functionality works, I can improve error handling—especially for I²C sensor glitches and serial port writes—to recover gracefully if hardware hiccups occur. Adding unit tests for state transitions and a clean shutdown procedure for the Morse code thread would increase reliability. I also need to remove leftover TODO comments and include clear setup steps for wiring and pin assignments.
+
+For hardware control, I relied on the gpiozero library for LEDs and buttons, the Adafruit CircuitPython libraries (adafruit_ahtx0 and adafruit_character_lcd) for sensor and display support, and the python-statemachine package for state management. I referenced the official Adafruit wiring guides and the gpiozero documentation to wire the components correctly and configure pull‑up settings.
+
+This project strengthened my understanding of state machine design, Python threading, and low‑level hardware interfacing on Linux. Those skills will carry over to other IoT or embedded systems projects, as well as to coursework involving concurrent programming and system architecture.
+
+I organized code into classes with descriptive names and used a DEBUG flag to toggle debug output, making it easy to trace behavior without cluttering release logs. All hardware setup is centralized in constructors, so swapping a different sensor or display requires minimal changes. By keeping display and logic separate and defining state transitions declaratively, the codebase remains readable and easy to extend for new features or different hardware configurations.
